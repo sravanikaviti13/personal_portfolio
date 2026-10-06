@@ -25,6 +25,9 @@
   img.onload = () => { $("#avatar").innerHTML = ""; $("#avatar").appendChild(img); };
   img.src = p.photo;
 
+  /* ---------- hero demo modes ---------- */
+  $$("#modes button").forEach((b) => b.addEventListener("click", () => window.__setSceneMode(b.dataset.mode)));
+
   /* ---------- typing role ---------- */
   const roleEl = $("#roleText");
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;

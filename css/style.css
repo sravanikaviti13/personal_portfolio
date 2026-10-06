@@ -115,7 +115,13 @@ nav a.active { color: var(--accent); }
 .caret { display: inline-block; width: .55ch; height: 1.1em; background: var(--accent); margin-left: 2px; vertical-align: -0.15em; animation: blink 1s steps(2) infinite; }
 @keyframes blink { 50% { opacity: 0; } }
 .lead { max-width: 34rem; font-size: 1.15rem; color: var(--muted); }
-.hint { font-size: .75rem; color: var(--muted); margin-top: 2.2rem; opacity: .8; }
+.hint { font-size: .75rem; color: var(--muted); opacity: .85; }
+
+.modes { display: inline-flex; gap: .3rem; margin-top: 1.8rem; padding: .3rem; border: 1px solid var(--line); border-radius: 12px; background: color-mix(in srgb, var(--surface) 80%, transparent); }
+.modes button { padding: .45rem .95rem; border: 0; border-radius: 8px; background: transparent; color: var(--muted); font: 500 .85rem var(--mono); cursor: pointer; transition: all .2s; }
+.modes button:hover { color: var(--text); }
+.modes button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+.hint { margin-top: .9rem !important; }
 
 /* stats */
 .stats {

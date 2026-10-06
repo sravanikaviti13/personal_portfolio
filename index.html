@@ -63,7 +63,13 @@
           <a class="btn ghost" id="ghBtn" href="#" target="_blank" rel="noopener">GitHub ↗</a>
           <a class="btn ghost" id="liBtn" href="#" target="_blank" rel="noopener">LinkedIn ↗</a>
         </div>
-        <p class="hint mono">↳ the scene is a simulated perception feed. Move your mouse over it.</p>
+        <div class="modes" id="modes" role="group" aria-label="Vision demo mode">
+          <button type="button" data-mode="detect" aria-pressed="true">Detect</button>
+          <button type="button" data-mode="segment" aria-pressed="false">Segment</button>
+          <button type="button" data-mode="attention" aria-pressed="false">Attention</button>
+          <button type="button" data-mode="conv" aria-pressed="false">Conv</button>
+        </div>
+        <p class="hint mono" id="modeCaption">↳ simulated demo. Switch modes and move your mouse over the image.</p>
       </div>
     </section>
 

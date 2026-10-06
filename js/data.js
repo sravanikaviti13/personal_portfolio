@@ -11,7 +11,7 @@ const DATA = {
       "Perception for autonomous driving",
     ],
     tagline:
-      "I build machine-learning systems that have to work outside the notebook: on a car's Jetson at 7–10 FPS, or in front of 200 colleagues.",
+      "I build machine-learning and computer-vision systems that have to work outside the notebook: real-time models on edge hardware, and ML tools used by hundreds of colleagues.",
     location: "Dresden, Germany",
     email: "sravanika76@gmail.com",
     github: "https://github.com/sravanikaviti13",
