@@ -336,12 +336,14 @@ const DATA = {
   ],
 
   skills: [
-    { group: "Computer Vision", items: ["YOLO", "OpenCV", "EfficientNet", "U-Net", "Object detection", "Multi-object tracking", "Semantic segmentation", "Camera calibration", "Transfer learning"] },
-    { group: "Machine Learning", items: ["PyTorch", "scikit-learn", "Transformers", "XGBoost", "LambdaMART", "Clustering", "SHAP"] },
-    { group: "Generative AI & NLP", items: ["Conditional diffusion", "RAG", "Vector databases", "LLM semantic matching"] },
-    { group: "Robotics & Edge", items: ["ROS 2", "Sensor synchronisation", "GPS / IMU", "ZED SDK", "ONNX", "TensorRT", "CUDA", "NVIDIA Jetson", "Docker"] },
+    { group: "Computer Vision", items: ["YOLO (v8, 11)", "OpenCV", "EfficientNet", "U-Net", "DINOv2", "Object detection", "Multi-object tracking", "Stereo depth & 3D tracking", "Semantic segmentation", "Lane detection", "Camera calibration", "Transfer learning"] },
+    { group: "Machine Learning", items: ["PyTorch", "scikit-learn", "Transformers", "Hugging Face", "XGBoost", "LambdaMART", "Learning to rank", "Clustering", "Hyperparameter tuning"] },
+    { group: "Generative AI & NLP", items: ["Diffusion models", "LLM APIs", "Prompt engineering", "CrewAI agents", "RAG", "Vector databases", "Semantic search", "spaCy"] },
+    { group: "Robotics & Edge", items: ["ROS 2", "NVIDIA Jetson", "TensorRT", "ONNX", "CUDA", "ZED SDK", "Sensor synchronisation", "GPS / IMU", "Robot arm data collection"] },
+    { group: "Evaluation & Methods", items: ["IoU / mAP", "NDCG", "F1 / precision / recall", "SHAP explainability", "Ablation studies", "Human evaluation"] },
     { group: "Programming & Data", items: ["Python", "C / C++", "SQL", "PL/SQL", "NumPy", "Pandas", "Matplotlib"] },
-    { group: "Tools", items: ["Git", "GitHub", "Jenkins", "KNIME", "ServiceNow", "Linux / Unix"] },
+    { group: "Backend & Web", items: ["FastAPI", "REST APIs", "SQLAlchemy", "PostgreSQL", "React", "JavaScript", "Oracle Forms", "VBA"] },
+    { group: "Tools & Deployment", items: ["Docker", "Git", "GitHub", "Linux / Unix", "Jenkins", "KNIME", "ServiceNow", "Vercel", "Render", "Supabase", "LabelMe"] },
   ],
 
   education: [
