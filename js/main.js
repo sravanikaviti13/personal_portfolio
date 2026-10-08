@@ -18,7 +18,6 @@
   $("#ghBtn").href = $("#ghBtn2").href = p.github;
   $("#liBtn").href = $("#liBtn2").href = p.linkedin;
   $("#mailLink").href = "mailto:" + p.email;
-  $("#year").textContent = new Date().getFullYear();
 
   /* ---------- about ---------- */
   $("#aboutText").innerHTML = DATA.about.paragraphs.map((t) => `<p>${t}</p>`).join("");

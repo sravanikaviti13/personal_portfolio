@@ -146,19 +146,46 @@ const DATA = {
     {
       id: "tactile",
       title: "Conditional Diffusion for Tactile Data Augmentation",
-      kicker: "University project · TU Dresden",
+      kicker: "Research project · TU Dresden (LASR Lab)",
       summary:
-        "Generates tactile sensor images directly from changes in a robot's state, so scarce tactile data can be augmented instead of collected.",
+        "Generates tactile sensor images directly from the change in a robot's state, with no depth map or 3D model in between, so scarce tactile data can be augmented instead of collected.",
       metrics: [
         { v: "89.2%", l: "usable on held-out pairs" },
-        { v: "~12K", l: "DIGIT images" },
+        { v: "68.6%", l: "on unseen gel regions" },
       ],
-      stack: ["Diffusion", "U-Net", "DINOv2", "Cross-attention", "PyTorch"],
+      stack: ["Diffusion (DDPM)", "U-Net", "DINOv2", "Cross-attention", "PyTorch"],
       repo: "https://github.com/lasr-lab/touch-data-augmentation",
-      details: [
-        "Collected and processed ~12K DIGIT tactile images from a UFactory xArm7, paired with 19-dimensional kinematic deltas (joint angles, end-effector pose, force–torque).",
-        "Conditional diffusion model: U-Net with DINOv2 image features and kinematic-delta cross-attention.",
-        "Evaluated single- and multi-object variants with IoU, MSE, PSNR and SSIM. 68.6% usable reconstructions on unseen spatial gel regions.",
+      groups: [
+        {
+          title: "The problem",
+          bullets: [
+            "Vision-based tactile sensors such as DIGIT need large datasets, but every sample means moving a robot into contact, which is slow and expensive.",
+            "Geometric augmentation can't reproduce how a gel deforms, and physics simulators leave a visual gap to real sensors. Existing diffusion approaches still need depth maps or 3D reconstructions as input.",
+          ],
+        },
+        {
+          title: "What I built",
+          bullets: [
+            "Collected about 12K DIGIT images with a UFactory xArm7 across 7 3D-printed objects. An automated routine swept a position grid with 21 orientations and several contact forces, and logged 19 kinematic values per image (7 joint angles, end-effector pose, 6 force–torque components).",
+            "Added a real-time correction step (Canny edges, Hough lines, affine re-centering) to fix image shifts caused by sensor vibration during long collection runs.",
+            "Built a conditional diffusion model (DDPM, cosine schedule, 800 steps): a U-Net with two cross-attention streams, one over the sinusoidally encoded kinematic delta and one over frozen DINOv2 patch features of the source image, plus a DINO perceptual loss.",
+            "Designed the evaluation: a PSPNet that I trained to segment the contact region, then IoU, MSE, PSNR and SSIM on full images and on the contact area only. Each prediction is graded high-quality, moderate or failed. A depth-recovery check confirmed the generated touches carry real contact information (depth-map SSIM 0.98).",
+          ],
+        },
+        {
+          title: "Results",
+          bullets: [
+            "89.2% of test pairs gave usable reconstructions (55.6% high-quality) across 5 objects. When whole regions of the gel were hidden during training, 68.6% were still usable.",
+            "DINOv2 conditioning mattered most on the hard case: high-quality reconstructions rose from 22.9% to 33.9% on unseen regions, and training converged in 35–40 epochs instead of about 120.",
+            "Conditioning ablation: using only the 6 end-effector pose values gave 48.8% high-quality reconstructions, against 71.6% with all 19 values in the single-object setting.",
+          ],
+        },
+        {
+          title: "Limits I found",
+          bullets: [
+            "On an object it had never seen, the model put the contact in the right place but reproduced the deformation of the closest training object. Fine-tuning on just 50 images of the new object raised high-quality results from 20.4% to 47.0%.",
+          ],
+        },
       ],
       images: [
         {
@@ -171,18 +198,38 @@ const DATA = {
     {
       id: "emotion",
       title: "Explainable Multi-Label Emotion Detection",
-      kicker: "University project · TU Dresden",
+      kicker: "TU Dresden",
       summary:
-        "Fine-tuned RoBERTa and ALBERT for multi-label emotion classification, then checked whether the explanations could be trusted.",
+        "Fine-tuned RoBERTa and ALBERT to detect five emotions in text, then used SHAP and human labels to check whether the model can be trusted.",
       metrics: [
-        { v: "0.782", l: "mean F1 (RoBERTa)" },
-        { v: "13", l: "configurations" },
+        { v: "0.782", l: "mean F1 (best of 13 runs)" },
+        { v: "0.52", l: "mean F1 on human labels" },
       ],
       stack: ["RoBERTa", "ALBERT", "Hugging Face", "SHAP", "PyTorch"],
       repo: "https://github.com/sravanikaviti13/explainable-text-emotion-detection",
-      details: [
-        "Evaluated 13 model configurations with PyTorch and Hugging Face Transformers.",
-        "Applied SHAP token attribution and human evaluation to assess explanation quality and robustness. Mean F1 of about 0.52 on manually labelled samples.",
+      groups: [
+        {
+          title: "The task",
+          bullets: [
+            "Predict joy, sadness, fear, anger and surprise for each text, where one text can carry several emotions (multi-label). Data came from SemEval 2025 Task 11-A: 2,768 training and 116 validation samples.",
+          ],
+        },
+        {
+          title: "What we built",
+          bullets: [
+            "Fine-tuned RoBERTa and ALBERT with PyTorch and Hugging Face, adding a custom classification head (three layers of 1024, 512 and 256 units with layer norm and dropout) trained with a multi-label loss and AdamW.",
+            "Ran 13 experiments that changed the model, activation (ReLU vs GELU), learning rate, batch size, layer normalisation, number of fine-tuned layers (3, 5 or all) and data augmentation (synonym replacement, back-translation).",
+          ],
+        },
+        {
+          title: "Results",
+          bullets: [
+            "ALBERT stalled at 0.66–0.68 mean F1. A first RoBERTa setup reached 0.744, and the best configuration reached 0.782 with very low variance across emotions.",
+            "More than 3 fine-tuned layers and very long training overfit. Standard text augmentation made results worse, because swapping a single word can change the emotion of a sentence.",
+            "On 50–70 test samples we labelled by hand, mean F1 dropped to about 0.52: fear held up (0.75) but sadness failed completely. People disagree about emotion too, so a single benchmark number can overstate how reliable the model is.",
+            "SHAP showed which words drive each prediction, for example \"automobile accident\" pushing towards fear. It also showed the model reacting to emojis, such as a sad face turning a neutral sentence into fear and sadness.",
+          ],
+        },
       ],
       images: [
         {
