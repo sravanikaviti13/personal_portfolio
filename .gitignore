@@ -1,0 +1,27 @@
+# Operating system
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Dependencies and builds (not used by this template, but handy if you add a bundler)
+node_modules/
+dist/
+build/
+
+# Secrets and local config
+.env
+.env.*
+*.local
+
+# Logs and scratch files
+*.log
+npm-debug.log*
+tmp/
+scratch/
+_t*.html

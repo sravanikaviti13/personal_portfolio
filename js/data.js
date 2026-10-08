@@ -23,14 +23,10 @@ const DATA = {
     paragraphs: [
       "I'm an engineer who likes seeing machine-learning ideas actually run. I started out writing backend code for an insurance platform, moved into data analysis at Infineon, then into applied AI, and today I work on computer vision for autonomous driving.",
       "I'm happiest when a model leaves the notebook: running on a Jetson during on-road testing, or inside an app colleagues actually use.",
-      "I'm finishing my M.Sc. in Visual Computing at TU Dresden, and I'm writing my thesis at FSD Fahrzeugsystemdaten on machine-interpretable traffic regulations for autonomous-driving compliance.",
     ],
     now: [
-      { k: "Right now", v: "Writing my master's thesis at FSD Fahrzeugsystemdaten" },
-      { k: "Thesis topic", v: "Machine-Interpretable Traffic Regulations for Autonomous-Driving Compliance" },
-      { k: "Studying", v: "M.Sc. Visual Computing, TU Dresden" },
+      { k: "Right now", v: "Writing my master's thesis at FSD Fahrzeugsystemdaten, on machine-interpretable traffic regulations for autonomous-driving compliance" },
       { k: "Languages", v: "English (C1) · German (B1)" },
-      { k: "Based in", v: "Dresden, Germany" },
     ],
   },
 
