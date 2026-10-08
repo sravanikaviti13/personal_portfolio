@@ -82,21 +82,6 @@ Colours, fonts and radius are CSS variables at the top of the file (`--accent`, 
 
 All links in the site are relative, so it works under either URL without changes.
 
-## Project structure
-
-```
-.
-├── index.html        # home page
-├── project.html      # one template for every project page (?id=...)
-├── css/style.css     # all styles and theme variables
-├── js/
-│   ├── data.js       # all your content
-│   ├── main.js       # home page behaviour
-│   └── project.js    # project page rendering
-├── assets/           # photo, favicon, project figures
-└── docs/preview.png  # screenshot used in this README
-```
-
 ## Before you publish
 
 - Replace the photo, text and project figures. They belong to the original author (see below).
