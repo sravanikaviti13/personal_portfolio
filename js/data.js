@@ -93,30 +93,11 @@ const DATA = {
     },
   ],
 
-  /* cat: vision | gen | nlp | applied */
+  /* Cards link to project.html?id=<id>. `images` and `repo` are optional. */
   projects: [
-    {
-      id: "perception",
-      title: "Multi-Camera Perception on Jetson",
-      cat: "vision",
-      kicker: "FSD Fahrzeugsystemdaten · 2026",
-      summary:
-        "A ROS 2 pipeline that detects, tracks and measures road objects in real time and estimates time-to-collision, running on an NVIDIA Jetson Orin NX.",
-      metrics: [
-        { v: "0.68", l: "mAP50 (YOLO11m)" },
-        { v: "7–10", l: "FPS on-road" },
-      ],
-      stack: ["ROS 2", "YOLO11", "TensorRT", "ONNX", "ZED SDK", "Jetson Orin NX"],
-      details: [
-        "Benchmarked YOLOv8 against YOLO11 and picked YOLO11m for longer-range detection.",
-        "Exported PyTorch → ONNX → TensorRT engines for Jetson deployment.",
-        "Stereo depth + 3D tracking with custom ID stabilisation produce distance, relative velocity and time-to-collision.",
-      ],
-    },
     {
       id: "tsr",
       title: "Two-Stage Traffic-Sign Recognition",
-      cat: "vision",
       kicker: "FSD Fahrzeugsystemdaten · 2026",
       summary:
         "YOLO finds the sign, EfficientNet-B0 identifies it. Splitting detection from classification made 211 German sign classes tractable.",
@@ -133,7 +114,6 @@ const DATA = {
     {
       id: "lane",
       title: "Ego-Lane Detection Prototype",
-      cat: "vision",
       kicker: "FSD Fahrzeugsystemdaten · 2026",
       summary:
         "Fuses a KITTI-trained ResNet-18 U-Net road segmenter with UFLD lane-line detection to isolate the ego lane.",
@@ -149,7 +129,6 @@ const DATA = {
     {
       id: "tactile",
       title: "Conditional Diffusion for Tactile Data Augmentation",
-      cat: "gen",
       kicker: "University project · TU Dresden",
       summary:
         "Generates tactile sensor images directly from changes in a robot's state, so scarce tactile data can be augmented instead of collected.",
@@ -158,17 +137,23 @@ const DATA = {
         { v: "~12K", l: "DIGIT images" },
       ],
       stack: ["Diffusion", "U-Net", "DINOv2", "Cross-attention", "PyTorch"],
-      repo: "", // e.g. "https://github.com/sravanikaviti13/<repo-name>"
+      repo: "https://github.com/lasr-lab/touch-data-augmentation",
       details: [
         "Collected and processed ~12K DIGIT tactile images from a UFactory xArm7, paired with 19-dimensional kinematic deltas (joint angles, end-effector pose, force–torque).",
         "Conditional diffusion model: U-Net with DINOv2 image features and kinematic-delta cross-attention.",
         "Evaluated single- and multi-object variants with IoU, MSE, PSNR and SSIM. 68.6% usable reconstructions on unseen spatial gel regions.",
       ],
+      images: [
+        {
+          src: "assets/projects/diffusion-workflow.png",
+          caption:
+            "Left: data collection (robot images paired with the kinematic condition). Middle: a U-Net denoising network conditioned on DINOv2 features and the change in robot state. Right: DDIM sampling, then evaluation at image level and on segmented masks.",
+        },
+      ],
     },
     {
       id: "emotion",
       title: "Explainable Multi-Label Emotion Detection",
-      cat: "nlp",
       kicker: "University project · TU Dresden",
       summary:
         "Fine-tuned RoBERTa and ALBERT for multi-label emotion classification, then checked whether the explanations could be trusted.",
@@ -177,63 +162,22 @@ const DATA = {
         { v: "13", l: "configurations" },
       ],
       stack: ["RoBERTa", "ALBERT", "Hugging Face", "SHAP", "PyTorch"],
-      repo: "",
+      repo: "https://github.com/sravanikaviti13/explainable-text-emotion-detection",
       details: [
         "Evaluated 13 model configurations with PyTorch and Hugging Face Transformers.",
         "Applied SHAP token attribution and human evaluation to assess explanation quality and robustness. Mean F1 of about 0.52 on manually labelled samples.",
       ],
-    },
-    {
-      id: "workshop",
-      title: "Workshop Management App + Moderator Recommender",
-      cat: "applied",
-      kicker: "Infineon · Innovation team · 2025",
-      summary:
-        "A full-stack app for running internal workshops, with a LambdaMART ranker that suggests the best moderators for each one.",
-      metrics: [
-        { v: "0.68", l: "NDCG@5" },
-        { v: "+25%", l: "vs. skill + location baseline" },
-      ],
-      stack: ["LambdaMART", "Learning to rank", "Full-stack", "Email workflows"],
-      details: [
-        "Adopted by approximately 200 employees within three months; about 15 workshops created in the initial rollout.",
-        "Ranker scores eligible moderators on skill alignment, location suitability and historical feedback, evaluated on 20 held-out workshops.",
-        "Creators can filter by location or learning interest, pick alternatives, and send request or confirmation emails; admins approve new skills.",
-      ],
-    },
-    {
-      id: "learnquest",
-      title: "LearnQuest: Gamified GenAI Learning",
-      cat: "applied",
-      kicker: "Infineon · Innovation team · 2025",
-      summary:
-        "A gamified platform that uses LLM-based semantic matching to judge learners' free-text answers.",
-      metrics: [
-        { v: "500+", l: "employees reached" },
-        { v: "100+", l: "active learners" },
-      ],
-      stack: ["LLMs", "Semantic search", "Generative AI", "Gamification"],
-      details: [
-        "Co-developed with a colleague as part of the innovation team.",
-        "Semantic matching evaluates participant responses instead of brittle keyword rules.",
-      ],
-    },
-    {
-      id: "setup",
-      title: "Setup-Time Prediction",
-      cat: "applied",
-      kicker: "Infineon · Data analyst · 2024",
-      summary:
-        "Linked 80K+ planning and equipment records to explain and predict which process combinations lengthen equipment setup.",
-      metrics: [
-        { v: "80K+", l: "records integrated" },
-        { v: "0.57", l: "R² (XGBoost)" },
-      ],
-      stack: ["SQL", "KNIME", "XGBoost", "Random Forest", "Clustering"],
-      details: [
-        "Reconstructed equipment-change histories and linked gas, energy and dose parameters to setup times.",
-        "Compared Random Forest, XGBoost and Gradient Boosting; XGBoost was selected.",
-        "Documented data gaps and cross-application requirements so later models can improve.",
+      images: [
+        {
+          src: "assets/projects/emotion-pipeline.png",
+          caption:
+            "Pipeline: pre-trained RoBERTa and ALBERT are retrained on the tokenised data, evaluated on validation data and on human-labelled data, then used to predict test labels and analysed with SHAP.",
+        },
+        {
+          src: "assets/projects/emotion-shap.png",
+          caption:
+            "SHAP token attributions for three example texts: red words push an emotion up, blue words push it down.",
+        },
       ],
     },
   ],
@@ -262,7 +206,7 @@ const DATA = {
       school: "V.R. Siddhartha Engineering College, Vijayawada",
       period: "2017 – 2021",
       lines: [
-        "Grade: 1.9 · Thesis: Mobile Detacher Using a Heart Rate Monitoring System",
+        "Thesis: Mobile Detacher Using a Heart Rate Monitoring System",
         "Coursework: Data Structures & Algorithms, Computer Networks, Embedded C, MATLAB, Microcontroller Programming, Digital Signal Processing",
       ],
     },

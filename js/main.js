@@ -18,7 +18,6 @@
   $("#ghBtn").href = $("#ghBtn2").href = p.github;
   $("#liBtn").href = $("#liBtn2").href = p.linkedin;
   $("#mailLink").href = "mailto:" + p.email;
-  $("#mailLink").textContent = p.email;
   $("#year").textContent = new Date().getFullYear();
 
   /* ---------- about ---------- */
@@ -51,48 +50,47 @@
   });
   showExp(0);
 
-  /* ---------- projects ---------- */
-  const CATS = { all: "All", vision: "Computer vision", gen: "Generative", nlp: "NLP", applied: "Applied ML" };
-  const filters = $("#filters"), grid = $("#projectGrid");
-  Object.entries(CATS).forEach(([k, label]) => {
-    const b = el("button", "chip", label);
-    b.type = "button";
-    b.setAttribute("aria-pressed", k === "all");
-    b.addEventListener("click", () => {
-      $$(".chip", filters).forEach((c) => c.setAttribute("aria-pressed", c === b));
-      $$(".pcard", grid).forEach((c) => c.classList.toggle("hide", k !== "all" && c.dataset.cat !== k));
-    });
-    filters.appendChild(b);
-  });
+  /* ---------- projects carousel ---------- */
+  const track = $("#projectGrid"), dots = $("#dots"), prevBtn = $("#prevBtn"), nextBtn = $("#nextBtn");
   DATA.projects.forEach((pr) => {
-    const c = el("button", "card pcard reveal",
+    const c = el("a", "card pcard",
       `<span class="kicker">${pr.kicker}</span><h3>${pr.title}</h3><p>${pr.summary}</p>` +
-      `<div class="pmetrics">${pr.metrics.map((m) => `<div><b>${m.v}</b><span>${m.l}</span></div>`).join("")}</div>` +
+      `<div class="pmetrics">${pr.metrics.map((x) => `<div><b>${x.v}</b><span>${x.l}</span></div>`).join("")}</div>` +
       `<div class="tags">${pr.stack.slice(0, 4).map((t) => `<span class="tag">${t}</span>`).join("")}</div>` +
-      `<span class="more">details →</span>`);
-    c.type = "button";
-    c.dataset.cat = pr.cat;
-    c.addEventListener("click", () => openModal(pr));
+      `<span class="more">View project →</span>`);
+    c.href = "project.html?id=" + encodeURIComponent(pr.id);
     c.addEventListener("pointermove", (e) => {
       const r = c.getBoundingClientRect();
       c.style.setProperty("--mx", e.clientX - r.left + "px");
       c.style.setProperty("--my", e.clientY - r.top + "px");
     });
-    grid.appendChild(c);
+    track.appendChild(c);
+    const d = el("button", "dot");
+    d.type = "button";
+    d.setAttribute("aria-label", "Go to " + pr.title);
+    d.addEventListener("click", () => track.scrollTo({ left: c.offsetLeft - track.offsetLeft, behavior: reduce ? "auto" : "smooth" }));
+    dots.appendChild(d);
   });
-
-  const modal = $("#modal");
-  function openModal(pr) {
-    $("#modalBody").innerHTML =
-      `<span class="mono" style="color:var(--accent-2);font-size:.78rem">${pr.kicker}</span>` +
-      `<h3 id="mTitle">${pr.title}</h3><p style="color:var(--muted)">${pr.summary}</p>` +
-      `<div class="pmetrics">${pr.metrics.map((m) => `<div><b>${m.v}</b><span>${m.l}</span></div>`).join("")}</div>` +
-      `<ul>${pr.details.map((d) => `<li>${d}</li>`).join("")}</ul>` +
-      `<div class="tags">${pr.stack.map((t) => `<span class="tag">${t}</span>`).join("")}</div>` +
-      (pr.repo ? `<div class="actions"><a class="btn primary" href="${pr.repo}" target="_blank" rel="noopener">View on GitHub ↗</a></div>` : "");
-    modal.showModal();
+  const cards = $$(".pcard", track), dotEls = $$(".dot", dots);
+  function syncCarousel() {
+    const t = track.getBoundingClientRect();
+    cards.forEach((c, i) => {
+      const r = c.getBoundingClientRect();
+      const vis = Math.min(r.right, t.right) - Math.max(r.left, t.left);
+      dotEls[i].classList.toggle("on", vis > r.width * 0.6);
+    });
+    const max = track.scrollWidth - track.clientWidth;
+    prevBtn.disabled = track.scrollLeft < 4;
+    nextBtn.disabled = track.scrollLeft > max - 4;
+    const fits = max < 4; // everything already visible: hide the controls
+    prevBtn.hidden = nextBtn.hidden = dots.hidden = fits;
   }
-  modal.addEventListener("click", (e) => { if (e.target === modal) modal.close(); });
+  const step = () => cards[0].getBoundingClientRect().width + parseFloat(getComputedStyle(track).columnGap || 0);
+  prevBtn.addEventListener("click", () => track.scrollBy({ left: -step(), behavior: reduce ? "auto" : "smooth" }));
+  nextBtn.addEventListener("click", () => track.scrollBy({ left: step(), behavior: reduce ? "auto" : "smooth" }));
+  track.addEventListener("scroll", () => requestAnimationFrame(syncCarousel), { passive: true });
+  addEventListener("resize", syncCarousel);
+  syncCarousel();
 
   /* ---------- skills ---------- */
   const sg = $("#skillGrid");
@@ -128,9 +126,10 @@
     toast.textContent = msg; toast.classList.add("show");
     clearTimeout(say.t); say.t = setTimeout(() => toast.classList.remove("show"), 1800);
   }
-  $("#copyBtn").addEventListener("click", async () => {
-    try { await navigator.clipboard.writeText(p.email); say("Email copied"); }
-    catch { say(p.email); }
+  // Clicking the email icon copies the address and also opens the default mail app (if there is one)
+  $("#mailLink").addEventListener("click", async () => {
+    try { await navigator.clipboard.writeText(p.email); say("Email copied: " + p.email); }
+    catch (e) { say(p.email); }
   });
 
   /* ---------- theme ---------- */
