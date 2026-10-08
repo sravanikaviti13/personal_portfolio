@@ -113,37 +113,6 @@ const DATA = {
   /* Cards link to project.html?id=<id>. `images` and `repo` are optional. */
   projects: [
     {
-      id: "tsr",
-      title: "Two-Stage Traffic-Sign Recognition",
-      kicker: "FSD Fahrzeugsystemdaten · 2026",
-      summary:
-        "YOLO finds the sign, EfficientNet-B0 identifies it. Splitting detection from classification made 211 German sign classes tractable.",
-      metrics: [
-        { v: "98.34%", l: "val. accuracy" },
-        { v: "211", l: "classes" },
-      ],
-      stack: ["YOLO", "EfficientNet-B0", "PyTorch", "Transfer learning"],
-      details: [
-        "Detection stage localises signs; classification stage handles the fine-grained label space.",
-        "Runs as one node inside the ROS 2 perception stack.",
-      ],
-    },
-    {
-      id: "lane",
-      title: "Ego-Lane Detection Prototype",
-      kicker: "FSD Fahrzeugsystemdaten · 2026",
-      summary:
-        "Fuses a KITTI-trained ResNet-18 U-Net road segmenter with UFLD lane-line detection to isolate the ego lane.",
-      metrics: [
-        { v: "0.924", l: "ego-lane IoU" },
-        { v: "0.913", l: "road IoU" },
-      ],
-      stack: ["U-Net", "ResNet-18", "UFLD", "Semantic segmentation"],
-      details: [
-        "Road segmentation from the U-Net, lane geometry from UFLD, combined to produce an ego-lane mask.",
-      ],
-    },
-    {
       id: "tactile",
       title: "Conditional Diffusion for Tactile Data Augmentation",
       kicker: "Research project · TU Dresden (LASR Lab)",
@@ -241,6 +210,131 @@ const DATA = {
           src: "assets/projects/emotion-shap.png",
           caption:
             "SHAP token attributions for three example texts: red words push an emotion up, blue words push it down.",
+        },
+      ],
+    },
+    {
+      id: "tsr",
+      title: "Two-Stage Traffic-Sign Recognition",
+      kicker: "FSD Fahrzeugsystemdaten · 2026",
+      summary:
+        "YOLO finds the sign, EfficientNet-B0 identifies it. Splitting detection from classification made 211 German sign classes tractable, and it runs live on a Jetson in a test car.",
+      metrics: [
+        { v: "98.34%", l: "val. accuracy" },
+        { v: "211", l: "sign classes" },
+      ],
+      stack: ["YOLO", "EfficientNet-B0", "ONNX", "CUDA", "PyTorch", "ROS 2"],
+      groups: [
+        {
+          title: "The goal",
+          bullets: [
+            "A car-mounted perception pipeline for road-safety evaluation has to know which traffic signs it passes. This module reads German signs in real time, next to object detection, depth and tracking.",
+          ],
+        },
+        {
+          title: "Data",
+          bullets: [
+            "Trained on Synset SignSet Germany: 211 sign classes, about 500 images per class (roughly 211,000 images in total). It is a much larger label space than the older GTSRB set with 43 classes.",
+            "Best model: 91,753 training and 21,100 validation samples across all 211 classes.",
+          ],
+        },
+        {
+          title: "How it works",
+          bullets: [
+            "Stage 1: a dedicated YOLO sign detector finds sign boxes.",
+            "Stage 2: each sign crop is resized to 224×224, normalised with ImageNet statistics and classified by an EfficientNet-B0 model exported to ONNX, running on CUDA with a CPU fallback. Predictions below 0.4 confidence are discarded.",
+            "Why two stages: a detector stays small and fast, while a dedicated classifier handles the fine-grained difference between 211 look-alike signs.",
+          ],
+        },
+        {
+          title: "Results and deployment",
+          bullets: [
+            "98.34% validation accuracy across 211 classes.",
+            "Models were trained in Docker containers on an NVIDIA Spark workstation and deployed on a Jetson Orin NX.",
+            "Detection, tracking and sign recognition run together inside one ROS 2 node, tested the pipeline live on the road, at 7–10 FPS.",
+          ],
+        },
+      ],
+    },
+    {
+      id: "lane",
+      title: "Ego-Lane Detection Prototype",
+      kicker: "FSD Fahrzeugsystemdaten · 2026",
+      summary:
+        "Fuses a KITTI-trained U-Net road segmenter with UFLD lane-line detection to find the lane the car is driving in.",
+      metrics: [
+        { v: "0.924", l: "ego-lane IoU" },
+        { v: "0.913", l: "road IoU" },
+      ],
+      stack: ["U-Net", "ResNet-18", "UFLD", "KITTI", "Semantic segmentation", "PyTorch"],
+      groups: [
+        {
+          title: "The goal",
+          bullets: [
+            "Knowing which lane is the ego lane is one input for the road-safety scoring this pipeline is heading towards. The prototype has been demonstrated on KITTI frames.",
+          ],
+        },
+        {
+          title: "Approach",
+          bullets: [
+            "Segmentation: a ResNet-18 U-Net trained on KITTI road data, with two output channels (drivable road and an ego-lane prior).",
+            "Lane lines: Ultra-Fast-Lane-Detection v2 with a ResNet-18 backbone, pretrained on CULane.",
+            "Each frame gets a confidence state: high (a valid lane pair), low (fall back to the segmentation prior) or invalid.",
+          ],
+        },
+        {
+          title: "Results",
+          bullets: [
+            "The two-head model reached 0.913 IoU for road and 0.924 for the ego lane.",
+            "An earlier single three-class head scored only 0.734 on the ego lane, so splitting road and ego-lane into separate heads was the change that mattered.",
+          ],
+        },
+      ],
+    },
+    {
+      id: "vocab",
+      title: "German Vocab Trainer",
+      kicker: "Personal project · full-stack + LLM",
+      summary:
+        "A fun side project for learning German from the books I read: it pulls vocabulary out of textbook PDFs and uses an LLM to check the sentences I write and show their English meaning.",
+      metrics: [
+        { v: "4", l: "practice modes" },
+        { v: "A1–C2", l: "sentence prompts" },
+      ],
+      stack: ["React", "FastAPI", "spaCy", "Tesseract OCR", "Groq LLM", "Supabase"],
+      repo: "https://github.com/sravanikaviti13/german-vocab-trainer",
+      groups: [
+        {
+          title: "Why I built it",
+          bullets: [
+            "I wanted every chapter of the German books I read to turn into practice, and I wanted feedback on my own sentences.",
+          ],
+        },
+        {
+          title: "How it works",
+          bullets: [
+            "Upload a textbook PDF and the app extracts the text (with Tesseract OCR as a fallback for scans), lemmatises and tags every word with spaCy, and translates it with an LLM. Translations are cached, so each word is only sent to the API once.",
+            "Or build a grammar topic by hand, such as Dativ verbs or modal verbs. Missing example sentences are generated automatically.",
+            "Four practice modes: flashcards with spaced repetition (SM-2 style), a der/die/das article drill, word matching, and sentence writing.",
+          ],
+        },
+        {
+          title: "AI sentence checking",
+          bullets: [
+            "Write a sentence using the target word. The LLM checks the grammar (articles, case, conjugation, word order), names the specific mistake, returns a corrected sentence and a natural English translation.",
+            "The prompt is written to be fair before strict: it must not invent rules or flag correct sentences because of style, and it accounts for how a noun's article changes with case.",
+            "It can also generate English prompts to translate at any level from A1 to C2, and look up a word's article, plural and meaning.",
+          ],
+        },
+      ],
+      images: [
+        {
+          src: "assets/projects/vocab-library.png",
+          caption: "The library: textbooks and chapters with their word counts, filled by the PDF ingestion script.",
+        },
+        {
+          src: "assets/projects/vocab-chapter.png",
+          caption: "A chapter, split by part of speech, with a due-today count and buttons for matching, sentence writing and practice.",
         },
       ],
     },
