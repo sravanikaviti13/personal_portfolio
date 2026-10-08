@@ -10,65 +10,29 @@ const DATA = {
       "ML on the edge",
       "Perception for autonomous driving",
     ],
-    tagline:
-      "I build machine-learning and computer-vision systems that have to work outside the notebook: real-time models on edge hardware, and ML tools used by hundreds of colleagues.",
+    intro:
+      "I'm an ML engineer pursuing a Master's in Visual Computing at TU Dresden, with expertise in computer vision, real-time edge deployment (ROS 2, TensorRT, NVIDIA Jetson), generative AI and ranking models.",
     location: "Dresden, Germany",
     email: "sravanika76@gmail.com",
     github: "https://github.com/sravanikaviti13",
-    linkedin: "https://www.linkedin.com/in/sravani-kaviti/",
+    linkedin: "https://www.linkedin.com/in/sravani-kaviti",
     cv: "assets/Sravani_Kaviti_CV.pdf",
-    photo: "assets/photo.jpg", // drop a photo here; initials are shown if the file is missing
   },
-
-  stats: [
-    { value: 4, suffix: "+", label: "years in software, data & ML" },
-    { value: 98.34, suffix: "%", decimals: 2, label: "traffic-sign validation accuracy (211 classes)" },
-    { value: 10, prefix: "7–", suffix: " FPS", label: "full perception stack on Jetson Orin NX" },
-    { value: 200, suffix: "", label: "employees onboarded to an app I built in 3 months" },
-  ],
 
   about: {
     paragraphs: [
-      "My path went from backend engineering on an insurance platform, to data analysis in a semiconductor fab, to applied AI, and now to real-time computer vision for autonomous-driving safety evaluation.",
-      "What ties it together is shipping: taking a model from a paper or a notebook and making it run reliably on real hardware, or in a real workflow, with the numbers to prove it.",
-      "I'm finishing an M.Sc. in Visual Computing at TU Dresden, with a thesis on machine-interpretable traffic regulations for autonomous-driving compliance.",
+      "I'm an engineer who likes seeing machine-learning ideas actually run. I started out writing backend code for an insurance platform, moved into data analysis at Infineon, then into applied AI, and today I work on computer vision for autonomous driving.",
+      "I'm happiest when a model leaves the notebook: running on a Jetson during on-road testing, or inside an app colleagues actually use.",
+      "I'm finishing my M.Sc. in Visual Computing at TU Dresden, and I'm writing my thesis at FSD Fahrzeugsystemdaten on machine-interpretable traffic regulations for autonomous-driving compliance.",
     ],
     now: [
-      { k: "Working on", v: "ROS 2 perception on NVIDIA Jetson at FSD Fahrzeugsystemdaten" },
-      { k: "Thesis", v: "Machine-Interpretable Traffic Regulations for Autonomous-Driving Compliance" },
+      { k: "Right now", v: "Writing my master's thesis at FSD Fahrzeugsystemdaten" },
+      { k: "Thesis topic", v: "Machine-Interpretable Traffic Regulations for Autonomous-Driving Compliance" },
+      { k: "Studying", v: "M.Sc. Visual Computing, TU Dresden" },
       { k: "Languages", v: "English (C1) · German (B1)" },
       { k: "Based in", v: "Dresden, Germany" },
     ],
   },
-
-  /* "From model to edge" stepper: mirrors the deployment workflow in the CV */
-  pipeline: [
-    {
-      title: "Data",
-      tool: "KITTI · road-scene subsets · German traffic signs",
-      text: "Curate and label road-scene data, check class balance, and hold out subsets that reflect on-road conditions rather than benchmark conditions.",
-    },
-    {
-      title: "Train",
-      tool: "PyTorch · YOLOv8 / YOLO11 · EfficientNet-B0 · U-Net",
-      text: "Fine-tune and benchmark candidates side by side. YOLO11m won for longer-range detection (mAP50 0.68 on my road-scene subset).",
-    },
-    {
-      title: "Export",
-      tool: "ONNX → TensorRT",
-      text: "Export PyTorch weights through ONNX and build TensorRT engines so inference fits the Jetson's latency budget.",
-    },
-    {
-      title: "Fuse",
-      tool: "ZED SDK · stereo depth · 3D tracking",
-      text: "Combine detection with stereo depth and 3D tracking, with custom ID stabilisation so objects keep their identity between frames.",
-    },
-    {
-      title: "Deploy",
-      tool: "ROS 2 · NVIDIA Jetson Orin NX · Docker",
-      text: "Run a multi-camera ROS 2 pipeline that outputs distance, relative velocity and time-to-collision: 7–10 FPS in on-road testing.",
-    },
-  ],
 
   experience: [
     {

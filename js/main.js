@@ -8,11 +8,12 @@
     return n;
   };
   const p = DATA.profile;
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   /* ---------- basic profile wiring ---------- */
   $("#heroName").textContent = p.name;
   $("#loc").textContent = p.location;
-  $("#tagline").textContent = p.tagline;
+  $("#intro").textContent = p.intro;
   $("#cvBtn").href = p.cv;
   $("#ghBtn").href = $("#ghBtn2").href = p.github;
   $("#liBtn").href = $("#liBtn2").href = p.linkedin;
@@ -20,79 +21,9 @@
   $("#mailLink").textContent = p.email;
   $("#year").textContent = new Date().getFullYear();
 
-  const img = new Image();
-  img.alt = p.name;
-  img.onload = () => { $("#avatar").innerHTML = ""; $("#avatar").appendChild(img); };
-  img.src = p.photo;
-
-  /* ---------- hero demo modes ---------- */
-  $$("#modes button").forEach((b) => b.addEventListener("click", () => window.__setSceneMode(b.dataset.mode)));
-
-  /* ---------- typing role ---------- */
-  const roleEl = $("#roleText");
-  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (reduce) {
-    roleEl.textContent = p.roles[0];
-  } else {
-    let ri = 0, ci = 0, del = false;
-    (function tick() {
-      const word = p.roles[ri];
-      ci += del ? -1 : 1;
-      roleEl.textContent = word.slice(0, ci);
-      let wait = del ? 28 : 70;
-      if (!del && ci === word.length) { del = true; wait = 1700; }
-      else if (del && ci === 0) { del = false; ri = (ri + 1) % p.roles.length; wait = 350; }
-      setTimeout(tick, wait);
-    })();
-  }
-
-  /* ---------- stats with count-up ---------- */
-  const statsEl = $("#stats");
-  DATA.stats.forEach((s) => {
-    const li = el("li", "reveal", `<strong data-v="${s.value}" data-d="${s.decimals || 0}" data-pre="${s.prefix || ""}" data-suf="${s.suffix || ""}">${s.prefix || ""}0${s.suffix || ""}</strong><span>${s.label}</span>`);
-    statsEl.appendChild(li);
-  });
-  function countUp(node) {
-    const target = +node.dataset.v, d = +node.dataset.d, pre = node.dataset.pre, suf = node.dataset.suf;
-    if (reduce) { node.textContent = pre + target.toFixed(d) + suf; return; }
-    const t0 = performance.now(), dur = 1400;
-    (function step(now) {
-      const k = Math.min((now - t0) / dur, 1), e = 1 - Math.pow(1 - k, 3);
-      node.textContent = pre + (target * e).toFixed(d) + suf;
-      if (k < 1) requestAnimationFrame(step);
-    })(t0);
-  }
-
   /* ---------- about ---------- */
   $("#aboutText").innerHTML = DATA.about.paragraphs.map((t) => `<p>${t}</p>`).join("");
   $("#aboutNow").innerHTML = DATA.about.now.map((r) => `<dt>${r.k}</dt><dd>${r.v}</dd>`).join("");
-
-  /* ---------- pipeline stepper ---------- */
-  const pipe = $("#pipe"), pipeDetail = $("#pipeDetail");
-  function showStage(i, focus) {
-    $$("button", pipe).forEach((b, j) => {
-      b.setAttribute("aria-selected", j === i);
-      b.tabIndex = j === i ? 0 : -1;
-    });
-    const s = DATA.pipeline[i];
-    pipeDetail.classList.remove("swap"); void pipeDetail.offsetWidth; pipeDetail.classList.add("swap");
-    pipeDetail.innerHTML = `<p class="mono">${s.tool}</p><p>${s.text}</p>`;
-    if (focus) $$("button", pipe)[i].focus();
-  }
-  DATA.pipeline.forEach((s, i) => {
-    const b = el("button", "", `<small>0${i + 1}</small>${s.title}`);
-    b.setAttribute("role", "tab");
-    b.addEventListener("click", () => showStage(i));
-    b.addEventListener("mouseenter", () => matchMedia("(hover:hover)").matches && showStage(i));
-    pipe.appendChild(b);
-  });
-  pipe.addEventListener("keydown", (e) => {
-    const cur = $$("button", pipe).findIndex((b) => b.getAttribute("aria-selected") === "true");
-    const n = DATA.pipeline.length;
-    if (e.key === "ArrowRight" || e.key === "ArrowDown") { e.preventDefault(); showStage((cur + 1) % n, true); }
-    if (e.key === "ArrowLeft" || e.key === "ArrowUp") { e.preventDefault(); showStage((cur - 1 + n) % n, true); }
-  });
-  showStage(0);
 
   /* ---------- experience tabs ---------- */
   const tabs = $("#expTabs"), panel = $("#expPanel");
@@ -242,8 +173,6 @@
     entries.forEach((en) => {
       if (!en.isIntersecting) return;
       en.target.classList.add("in");
-      const num = $("strong[data-v]", en.target);
-      if (num) countUp(num);
       io.unobserve(en.target);
     });
   }, { threshold: 0.15 });

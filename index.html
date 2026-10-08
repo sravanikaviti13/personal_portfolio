@@ -18,8 +18,6 @@
     try {
       var t = localStorage.getItem("theme");
       if (t) document.documentElement.setAttribute("data-theme", t);
-      else if (window.matchMedia("(prefers-color-scheme: light)").matches)
-        document.documentElement.setAttribute("data-theme", "light");
     } catch (e) {}
   </script>
 </head>
@@ -32,7 +30,6 @@
     <nav aria-label="Primary">
       <ul id="navlinks">
         <li><a href="#about">About</a></li>
-        <li><a href="#pipeline">Workflow</a></li>
         <li><a href="#experience">Experience</a></li>
         <li><a href="#projects">Projects</a></li>
         <li><a href="#skills">Skills</a></li>
@@ -49,65 +46,51 @@
 
   <main id="main">
     <!-- HERO -->
+    <div class="backdrop">
+    <div class="hero-bg" aria-hidden="true"></div>
     <section class="hero" id="top">
-      <canvas id="scene" aria-hidden="true"></canvas>
-      <div class="hero-fade" aria-hidden="true"></div>
-      <div class="wrap hero-inner">
-        <p class="eyebrow mono"><span class="dot"></span> <span id="loc">Dresden, Germany</span></p>
-        <h1 id="heroName">Sravani Kaviti</h1>
-        <p class="role mono"><span id="roleText"></span><span class="caret" aria-hidden="true"></span></p>
-        <p class="lead" id="tagline"></p>
-        <div class="cta">
-          <a class="btn primary" href="#projects">See my work</a>
-          <a class="btn" id="cvBtn" href="assets/Sravani_Kaviti_CV.pdf" target="_blank" rel="noopener">Download CV</a>
-          <a class="btn ghost" id="ghBtn" href="#" target="_blank" rel="noopener">GitHub ↗</a>
-          <a class="btn ghost" id="liBtn" href="#" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <div class="wrap hero-grid" id="heroGrid">
+        <figure class="portrait" id="portrait">
+          <img id="heroPhoto" src="assets/Picture.JPG" alt="Portrait of Sravani Kaviti" width="873" height="1216" fetchpriority="high">
+        </figure>
+        <div class="hero-copy" id="heroCopy">
+          <p class="eyebrow mono"><span class="dot"></span> <span id="loc">Dresden, Germany</span></p>
+          <h1 id="heroName">Sravani Kaviti</h1>
+          <p class="intro" id="intro"></p>
+          <div class="social">
+            <a class="icon-link" id="cvBtn" href="assets/Sravani_Kaviti_CV.pdf" target="_blank" rel="noopener" aria-label="Download CV" data-label="Download CV">
+              <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
+            </a>
+            <a class="icon-link" id="liBtn" href="#" target="_blank" rel="noopener me" aria-label="LinkedIn profile" data-label="LinkedIn">
+              <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2zM4 2a2 2 0 1 1 0 4 2 2 0 0 1 0-4z"/></svg>
+            </a>
+            <a class="icon-link" id="ghBtn" href="#" target="_blank" rel="noopener me" aria-label="GitHub profile" data-label="GitHub">
+              <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            </a>
+          </div>
         </div>
-        <div class="modes" id="modes" role="group" aria-label="Vision demo mode">
-          <button type="button" data-mode="detect" aria-pressed="true">Detect</button>
-          <button type="button" data-mode="segment" aria-pressed="false">Segment</button>
-          <button type="button" data-mode="attention" aria-pressed="false">Attention</button>
-          <button type="button" data-mode="conv" aria-pressed="false">Conv</button>
-        </div>
-        <p class="hint mono" id="modeCaption">↳ simulated demo. Switch modes and move your mouse over the image.</p>
       </div>
     </section>
 
-    <div class="wrap">
-      <ul class="stats" id="stats"></ul>
-    </div>
 
     <!-- ABOUT -->
     <section class="section" id="about">
       <div class="wrap about-grid">
         <div>
-          <p class="section-tag mono">01 / about</p>
-          <h2>From backend to the edge</h2>
+          <h2>About me</h2>
           <div id="aboutText" class="prose"></div>
         </div>
         <aside class="card about-card reveal">
-          <div class="avatar" id="avatar"><span>SK</span></div>
           <dl id="aboutNow"></dl>
         </aside>
       </div>
     </section>
-
-    <!-- PIPELINE -->
-    <section class="section alt" id="pipeline">
-      <div class="wrap">
-        <p class="section-tag mono">02 / workflow</p>
-        <h2>From model to edge</h2>
-        <p class="sub">How a perception model goes from a notebook to a moving car. Pick a stage.</p>
-        <div class="pipe" id="pipe" role="tablist" aria-label="Deployment stages"></div>
-        <div class="pipe-detail card" id="pipeDetail" aria-live="polite"></div>
-      </div>
-    </section>
+    </div>
 
     <!-- EXPERIENCE -->
     <section class="section" id="experience">
       <div class="wrap">
-        <p class="section-tag mono">03 / experience</p>
-        <h2>Where I've worked</h2>
+        <h2>Experience</h2>
         <div class="exp">
           <div class="exp-tabs" id="expTabs" role="tablist" aria-label="Roles" aria-orientation="vertical"></div>
           <div class="exp-panel card" id="expPanel" role="tabpanel" aria-live="polite"></div>
@@ -118,8 +101,7 @@
     <!-- PROJECTS -->
     <section class="section alt" id="projects">
       <div class="wrap">
-        <p class="section-tag mono">04 / projects</p>
-        <h2>Selected work</h2>
+        <h2>Projects</h2>
         <div class="filters" id="filters" role="group" aria-label="Filter projects"></div>
         <div class="grid" id="projectGrid"></div>
       </div>
@@ -128,8 +110,7 @@
     <!-- SKILLS -->
     <section class="section" id="skills">
       <div class="wrap">
-        <p class="section-tag mono">05 / skills</p>
-        <h2>Toolbox</h2>
+        <h2>Skills</h2>
         <p class="sub">Search or hover a group to focus.</p>
         <input class="search mono" id="skillSearch" type="search" placeholder="Filter skills… e.g. ros, yolo, sql" aria-label="Filter skills" autocomplete="off">
         <div class="skills" id="skillGrid"></div>
@@ -140,7 +121,6 @@
     <!-- EDUCATION -->
     <section class="section alt" id="education">
       <div class="wrap">
-        <p class="section-tag mono">06 / education</p>
         <h2>Education</h2>
         <div class="edu" id="eduList"></div>
       </div>
@@ -149,7 +129,6 @@
     <!-- CONTACT -->
     <section class="section contact" id="contact">
       <div class="wrap">
-        <p class="section-tag mono">07 / contact</p>
         <h2>Let's talk</h2>
         <p class="sub">Interested in perception, edge ML or applied AI? I'd like to hear about it.</p>
         <div class="contact-row">
@@ -179,7 +158,6 @@
   <div class="toast mono" id="toast" role="status" aria-live="polite"></div>
 
   <script src="js/data.js"></script>
-  <script src="js/scene.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
