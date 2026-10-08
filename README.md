@@ -8,7 +8,7 @@ This is the site of [Sravani Kaviti](https://github.com/sravanikaviti13), publis
 
 ## Features
 
-- Hero with photo, name, short intro and icon links (CV, LinkedIn, GitHub)
+- Hero with photo, name, short intro and icon links (LinkedIn, GitHub)
 - Light and dark theme, with a toggle that remembers the visitor's choice (light by default)
 - Slow animated backdrop behind the hero and About section
 - Experience as tabs, with optional grouped bullet points per role
@@ -38,42 +38,19 @@ All text on the site comes from this one file.
 
 | Key | What it controls |
 |---|---|
-| `profile` | Name, location, intro sentence, email and the GitHub, LinkedIn and CV links |
+| `profile` | Name, location, intro sentence, email and the GitHub and LinkedIn links |
 | `about` | Paragraphs and the small "right now" card in the About section |
 | `experience` | Roles. Give each one either `bullets: [...]` or `groups: [{ title, bullets }]` |
 | `projects` | Project cards and project pages (see below) |
 | `skills` | Skill groups and the items in each group |
 | `education` | Degrees, dates and notes |
 
-A project looks like this:
-
-```js
-{
-  id: "my-project",                 // used in the page URL: project.html?id=my-project
-  title: "My Project",
-  kicker: "Personal project · 2026", // small label above the title
-  summary: "One or two sentences for the card.",
-  metrics: [{ v: "95%", l: "accuracy" }, { v: "2x", l: "faster" }],
-  stack: ["Python", "PyTorch"],
-  repo: "https://github.com/you/my-project",   // optional: adds a "View code" button
-  groups: [                                     // sections on the project page
-    { title: "The problem", bullets: ["..."] },
-    { title: "Results", bullets: ["..."] },
-  ],
-  images: [                                     // optional figures
-    { src: "assets/projects/figure.png", caption: "What the figure shows." },
-  ],
-}
-```
-
-Use `details: ["...", "..."]` instead of `groups` for a single flat list. The order of the array is the order in the carousel.
 
 ### 2. Your files: `assets/`
 
 | File | Replace with |
 |---|---|
 | `assets/Picture.JPG` | Your portrait. A 4:5 crop with your face in the upper part works best |
-| `assets/Sravani_Kaviti_CV.pdf` | Your CV. Also update `profile.cv` in `js/data.js` if you rename it |
 | `assets/favicon.svg` | Your own icon (the current one shows "SK") |
 | `assets/projects/*` | Figures and screenshots for your projects |
 
@@ -116,18 +93,18 @@ All links in the site are relative, so it works under either URL without changes
 │   ├── data.js       # all your content
 │   ├── main.js       # home page behaviour
 │   └── project.js    # project page rendering
-├── assets/           # photo, CV, favicon, project figures
+├── assets/           # photo, favicon, project figures
 └── docs/preview.png  # screenshot used in this README
 ```
 
 ## Before you publish
 
-- Replace the photo, CV, text and project figures. They belong to the original author (see below).
-- Check what your CV PDF contains. A public repository and a public site make it downloadable by anyone, including any phone number or address on it.
+- Replace the photo, text and project figures. They belong to the original author (see below).
+- This template deliberately has no CV download. If you add one, check what the PDF contains: a public repository and site make it downloadable by anyone, including any phone number or address on it.
 - Remove or edit anything you do not want public: email address, employer names, unpublished results.
 
 ## License
 
 The **code** (HTML, CSS and JavaScript) is released under the [MIT License](LICENSE). Use it, change it and ship it, including for your own portfolio. A link back is appreciated but not required.
 
-The **personal content** is not covered by that licence and is not free to reuse: the portrait, the CV, the text in `js/data.js`, and the figures in `assets/projects/`. Please replace all of it with your own.
+The **personal content** is not covered by that licence and is not free to reuse: the portrait, the text in `js/data.js`, and the figures in `assets/projects/`. Please replace all of it with your own.

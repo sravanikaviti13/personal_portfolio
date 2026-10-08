@@ -14,7 +14,6 @@
   $("#heroName").textContent = p.name;
   $("#loc").textContent = p.location;
   $("#intro").textContent = p.intro;
-  $("#cvBtn").href = p.cv;
   $("#ghBtn").href = $("#ghBtn2").href = p.github;
   $("#liBtn").href = $("#liBtn2").href = p.linkedin;
   $("#mailLink").href = "mailto:" + p.email;

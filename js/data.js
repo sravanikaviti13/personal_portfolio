@@ -16,7 +16,6 @@ const DATA = {
     email: "sravanika76@gmail.com",
     github: "https://github.com/sravanikaviti13",
     linkedin: "https://www.linkedin.com/in/sravani-kaviti",
-    cv: "assets/Sravani_Kaviti_CV.pdf",
   },
 
   about: {
