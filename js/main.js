@@ -32,7 +32,9 @@
     panel.classList.remove("swap"); void panel.offsetWidth; panel.classList.add("swap");
     panel.innerHTML =
       `<h3>${e.role}</h3><p class="org">${e.org}</p><p class="meta">${e.period} · ${e.place}</p>` +
-      `<ul>${e.bullets.map((b) => `<li>${b}</li>`).join("")}</ul>` +
+      (e.groups
+        ? e.groups.map((g) => `<h4 class="grp">${g.title}</h4><ul>${g.bullets.map((b) => `<li>${b}</li>`).join("")}</ul>`).join("")
+        : `<ul>${e.bullets.map((b) => `<li>${b}</li>`).join("")}</ul>`) +
       `<div class="tags">${e.tags.map((t) => `<span class="tag">${t}</span>`).join("")}</div>`;
     if (focus) $$("button", tabs)[i].focus();
   }

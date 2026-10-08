@@ -56,12 +56,29 @@ const DATA = {
       org: "Infineon Technologies",
       place: "Dresden, Germany",
       period: "Jan 2025 – Dec 2025",
-      tags: ["LambdaMART", "Ranking", "LLMs", "Semantic matching", "Full-stack"],
-      bullets: [
-        "Developed a Workshop Management Application adopted by approximately 200 employees within three months, supporting workshop creation, moderator assignment, feedback, and administrative workflows.",
-        "Built and evaluated a LambdaMART moderator-recommendation system using skill, location, and feedback features, achieving NDCG@5 of 0.68 on 20 held-out workshops and a 25% improvement over a skill-and-location baseline.",
-        "Implemented moderator-management, approval, and notification workflows, supporting approximately 15 workshops during the initial three-month rollout.",
-        "Implemented LLM-based semantic matching to evaluate participant responses in a gamified learning platform using generative AI, reaching more than 100 active learners among 500+ employees.",
+      tags: ["LambdaMART", "LLMs", "Semantic search", "CrewAI", "REST APIs", "Hackathons"],
+      groups: [
+        {
+          title: "Workshop Management Application",
+          bullets: [
+            "Developed a Workshop Management Application adopted by approximately 200 employees within three months, supporting workshop creation, moderator assignment, feedback, and administrative workflows.",
+            "Built and evaluated a LambdaMART moderator-recommendation system using skill, location, and feedback features, achieving NDCG@5 of 0.68 on 20 held-out workshops and a 25% improvement over a skill-and-location baseline.",
+            "Implemented moderator-management, approval, and notification workflows, supporting approximately 15 workshops during the initial three-month rollout.",
+          ],
+        },
+        {
+          title: "LearnQuest: gamified learning application",
+          bullets: [
+            "Co-built a gamified learning application leveraging LLMs, with semantic search and answer evaluation: participant responses are sent to an LLM API and scored for similarity. Reached more than 100 active learners among 500+ employees.",
+          ],
+        },
+        {
+          title: "Internal hackathons",
+          bullets: [
+            "Fab team: built an AI-powered agent with CrewAI to explore how generative AI could enhance manufacturing mitigation strategies.",
+            "Risk management: integrated REST APIs to enable smooth backend–frontend communication.",
+          ],
+        },
       ],
     },
     {

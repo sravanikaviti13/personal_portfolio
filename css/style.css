@@ -188,6 +188,7 @@ dd { margin: .15rem 0 0; color: var(--text); font-size: .95rem; }
 .exp-panel .meta { color: var(--muted); font: .8rem var(--mono); margin: .3rem 0 1.2rem; }
 .exp-panel ul { padding-left: 1.1rem; margin: 0 0 1.2rem; }
 .exp-panel li { margin-bottom: .7rem; color: var(--muted); }
+.exp-panel .grp { font: 500 .78rem var(--mono); color: var(--accent-2); text-transform: uppercase; letter-spacing: .05em; margin: 1.3rem 0 .6rem; }
 .exp-panel li::marker { color: var(--accent); }
 .exp-panel.swap { animation: swap .35s ease; }
 .tags { display: flex; flex-wrap: wrap; gap: .4rem; }
